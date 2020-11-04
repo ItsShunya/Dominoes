@@ -26,16 +26,16 @@
 <h3 align="center">Dominoes</h3>
 
 <p align="center">
-
 This is a dominoes single-player played in the command line interface. It is possible to play with up to three bots and you can even let four bots play to visualize the functionalities of the game.
-
-<br />
-<a  href="https://github.com/Shunya-sama/Shuwy"><strong>Explore the docs »</strong></a>
-<br />
-<br />
-<a  href="https://github.com/Shunya-sama/Shuwy">View Demo</a>
-<a  href="https://github.com/Shunya-sama/Shuwy/issues">Report Bug</a>
-<a  href="https://github.com/Shunya-sama/Shuwy/issues">Request Feature</a>
+    <br />
+    <a  href="https://github.com/Shunya-sama/Shuwy"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a  href="https://github.com/Shunya-sama/Shuwy">View Demo</a>
+        ·
+    <a  href="https://github.com/Shunya-sama/Shuwy/issues">Report Bug</a>
+        ·
+    <a  href="https://github.com/Shunya-sama/Shuwy/issues">Request Feature</a>
 </p>
 </p>
 
