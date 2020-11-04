@@ -1,21 +1,21 @@
-#include "partida.h"
-//incloure totes les llibreries
+#include "game.h"
 
 #define TRUE 1
 #define FALSE 0
 
-int main(){
-	int acabado;
-	t_partida partida;
-	inicializar_partida(&partida);
-	realizar_jugada(&partida);
-	acabado=FALSE;            // Inicialitzem "acabado" a 0 perque la partida comença i ha d'entrar al while
-	while(acabado==FALSE)     // Entra sempre que es pugui seguint jugar
-	{	
-                imprimir_estado_partida(partida);
-		realizar_jugada(&partida);
-		acabado=se_ha_acabado_la_partida(partida);
+int main()
+{
+	int end;
+	t_game game;
+	initialize_game(&game);
+	make_play(&game);
+	end = FALSE;
+	while (end == FALSE) // Enters the loop every time there are moves to play.
+	{
+		print_game_state(game);
+		make_play(&game);
+		end = has_the_game_ended(game);
 	}
-	
-	imprimir_estado_final_partida(partida);   // Printf de la partida en la jugada final
+
+	print_final_game_state(game);
 }
