@@ -26,17 +26,29 @@
 <h3 align="center">Dominoes</h3>
 
 <p align="center">
+
 This is a dominoes single-player played in the command line interface. It is possible to play with up to three bots and you can even let four bots play to visualize the functionalities of the game.
-    <br />
-    <a  href="https://github.com/Shunya-sama/Shuwy"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a  href="https://github.com/Shunya-sama/Shuwy">View Demo</a>
-        ·
-    <a  href="https://github.com/Shunya-sama/Shuwy/issues">Report Bug</a>
-        ·
-    <a  href="https://github.com/Shunya-sama/Shuwy/issues">Request Feature</a>
+
+<br />
+
+<a  href="https://github.com/Shunya-sama/Dominoes"><strong>Explore the docs »</strong></a>
+
+<br />
+
+<br />
+
+<a  href="https://github.com/Shunya-sama/Dominoes">View Demo</a>
+
+·
+
+<a  href="https://github.com/Shunya-sama/Dominoes/issues">Report Bug</a>
+
+·
+
+<a  href="https://github.com/Shunya-sama/Dominoes/issues">Request Feature</a>
+
 </p>
+
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -69,37 +81,21 @@ This is a dominoes single-player played in the command line interface. It is pos
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Trying to choose a suitable bot for some general project discords was always a tiresome activity, seeing bots with too many useless features, or more likely focused in really concise targets. Shuwy is a bot which provides some general **moderation** features, together with **automation** capabilities such as setting a role for new members or welcoming them. It also features a powerful graphical **music** player to allow the users have a full experience bot.
+This was a project I developed during my first year of unniversity when I was learning C programming, so it includes quite some beginning errors. When you are starting programming in most of the languages, some of the easiest programs to make are just simple games, so in this case I chose dominoes. As a beginner developer, I did not include any kind of GUI, so it only runs in the command line. It is a simple dominoes game for a single player to play against bots.
 
 ### Built With
 
-- [Python 3.7](https://www.python.org/)
-
-- [discord.py](https://github.com/Rapptz/discord.py)
-
-- [Lavalink](https://github.com/Frederikam/Lavalink)
-
-- [Wavelink](https://github.com/PythonistaGuild/Wavelink)
-
-- [aiosqlite](https://github.com/omnilib/aiosqlite)
+- [C](https://www.programiz.com/c-programming)
 
 <!-- GETTING STARTED -->
 
 ## Getting Started
 
-I developed Shuwy for my personal use, but in case you want to set up your own local copy of Shuwy, follow these simple steps.
+I'm pretty sure there are way better dominoes games out there, but if in any case you need to code a dominoes game in C or want to practice your programming skills, feel free to use this one.
 
 ### Prerequisites
 
-1. Make sure you have Python 3.7 installed, otherwise get it **[here](https://www.python.org/downloads/).**
-
-2. Download a **[Database Browser for SQLite](https://sqlitebrowser.org/dl/)**, you will need it to maintain your databases.
-
-3. Generate your Discord Bot Token
-
-4. Set up a Lavalink server
+1. You will need a C compiler to compile this project, you can get **[GCC](https://gcc.gnu.org/).**
 
 ### Installation
 
@@ -107,51 +103,23 @@ I developed Shuwy for my personal use, but in case you want to set up your own l
 
 ```sh
 
-git clone https://github.com/Shunya-sama/Shuwy.git
+git clone https://github.com/Shunya-sama/Dominoes.git
 
 ```
 
-2. Set up a virtual environment
+2. Compile the files (make sure you are in the right directory)
 
 ```sh
 
-python3.7 -m venv ShuwyPythonenv
+gcc -c main.c game.c move.c player.c questions.c random.c sleep.c stack.c table.c tile.c
 
 ```
 
-3. Install dependencies
+3. Create the executable file
 
 ```sh
 
-pip install -U -r requirements.txt
-
-```
-
-### Configuration
-
-1. Add your Discord Bot Token to `\config\.env.example` file
-
-```sh
-
-DISCORD_TOKEN=YOUR TOKEN HERE
-
-```
-
-2. Rename `\config\.env.example` to `\config\.env`
-
-3. Open `\config\lavalink.bat` and correct the path to `Lavalink.jar`
-
-```sh
-
-java -jar "PATH-TO-YOUR-Lavalink.jar"
-
-```
-
-5. Open `\config\run.bat` and correct the following paths.
-
-```sh
-
-"PATH-TO-YOUR-BOT\ShuwyPythonenv\Scripts\python.exe"  "PATH-TO-YOUR-BOT\Shuwy.py" %*
+gcc -g -o Dominoes main.o game.o move.o player.o questions.o random.o sleep.o stack.o table.o tile.o
 
 ```
 
@@ -159,27 +127,17 @@ java -jar "PATH-TO-YOUR-Lavalink.jar"
 
 ## Usage
 
-The tools that I supply together with Shuwy are made of my own accord to ease the workflow. The functionalities of the bot are pretty standard and everyone is welcome to add or suggest more of them.
+After following the installation procedures you will obtain an executable file. To run it you only need to execute it.
 
-### Launch
+### Settings
 
-To start the bot, simply navigate to the \config folder and launch the executable run.bat. This is a _BATCH_ file that I developed to make it easier to start the bot and monitor its activity, the syntax of this _BATCH_ file makes it restricted uniquely to _Windows 10_, if you are using some other _OS_, just run the `Shuwy.py` file or use this command line:
-
-```sh
-
-"PATH-TO-YOUR-BOT\ShuwyPythonenv\Scripts\python.exe"  "PATH-TO-YOUR-BOT\Shuwy.py" %*
-
-```
-
-### Functionalities
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+You will be asked for the number of players you want to have (from one to four), simply type the number and press enter. You will also have to choose if there will be a human player, in this case you will have to answer _yes_ if you want to play against the bots, or answer _no_ to let the bots play by themselves and analyze the functionalities of the game. You can also activate omniscience to see at all times the tiles owned by every single player.
 
 <!-- ROADMAP -->
 
 ## Roadmap
 
-See the [open issues](https://github.com/Shunya-sama/Shuwy/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/Shunya-sama/Dominoes/issues) for a list of proposed features (and known issues).
 
 <!-- CONTRIBUTING -->
 
@@ -201,7 +159,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Distributed under the GNU General Public License. See `COPYING` for more information.
+Distributed under the GNU General Public License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 
@@ -209,15 +167,13 @@ Distributed under the GNU General Public License. See `COPYING` for more informa
 
 Victor Luque - [@ItsShunya](https://twitter.com/ItsShunya) - Shunya#1624 - luque.viictor@gmail.com
 
-Project Link: [https://github.com/Shunya-sama/Shuwy](https://github.com/Shunya-sama/Shuwy)
+Project Link: [https://github.com/Shunya-sama/Dominoes](https://github.com/Shunya-sama/Dominoes)
 
 <!-- ACKNOWLEDGEMENTS -->
 
 ## Acknowledgements
 
-- [Rapptz](https://github.com/Rapptz) for developing discord.py
-
-- [Pythonista Guild](https://github.com/PythonistaGuild) for their work with Wavelink
+- [ETSETB - UPC](https://telecos.upc.edu/es) for their C programming course.
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
