@@ -30,21 +30,13 @@
 This is a dominoes single-player played in the command line interface. It is possible to play with up to three bots and you can even let four bots play to visualize the functionalities of the game.
 
 <br />
-
 <a  href="https://github.com/Shunya-sama/Dominoes"><strong>Explore the docs »</strong></a>
-
 <br />
-
 <br />
-
 <a  href="https://github.com/Shunya-sama/Dominoes">View Demo</a>
-
 ·
-
 <a  href="https://github.com/Shunya-sama/Dominoes/issues">Report Bug</a>
-
 ·
-
 <a  href="https://github.com/Shunya-sama/Dominoes/issues">Request Feature</a>
 
 </p>
