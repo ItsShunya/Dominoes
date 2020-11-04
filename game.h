@@ -9,13 +9,13 @@
 typedef struct
 {
 	t_players js;
-	t_table m;	  // tiles jugadas
-	t_stack pi;	  // tiles no jugadas y que no tiene nadie
-	int visible;  // Pila y tiles de robots visibles
-	int table_2d; // Ver mesa en 2D (versus 1D)
-				  // visible y table_2d pueden valer TRUE o FALSE
-	int pasadas;  // Veces consecutivas que un player pasa
-				  // si pasadas == n_player se acaba el juego.
+	t_table m;		// Tiles played.
+	t_stack pi;		// Tiles not played and not belonging to any player.
+	int visible;	// Stack of tiles and visible tiles from a bot.
+	int table_2d;	// See table in 2D (versus 1D).
+					// visible and table_2d can be TRUE o FALSE.
+	int num_passes; // Consecutive times a player passes turn.
+					// if num_passes == n_players the game ends.
 } t_game;
 
 void initialize_game(t_game *p_pa);

@@ -20,11 +20,11 @@ void initialize_stack(t_stack *pi)
 {
 	int i = 0, j, k;
 
-	pi->n_tiles = NUM_TILES_DOMINO; // Al inicio todas las tiles estan en la pila
+	pi->n_tiles = NUM_TILES_DOMINO; // At the start all the tiles belong to the stack.
 	for (j = 0; j < 7; j++)
 		for (k = j; k < 7; k++)
 		{
-			initialize_tile(&pi->f[i], j, k); //Inicializa las 28 tiles
+			initialize_tile(&pi->f[i], j, k); // Initialize the 28 tiles.
 			i++;
 		}
 }
@@ -34,14 +34,14 @@ void print_stack(t_stack pi, int visible)
 	int i;
 
 	if (visible == TRUE)
-	{ // Omnisciencia activada
+	{ // Omniscience on.
 		printf("Pila:\t");
 		for (i = 0; i < pi.n_tiles; i++)
 			print_tile(pi.f[i], visible);
 	}
 
 	else
-	{ // Omnisciencia apagada
+	{ // Omnisciencia off.
 		printf("Pila:\t");
 		for (i = 0; i < pi.n_tiles; i++)
 			printf("?:?|");
@@ -63,12 +63,12 @@ t_tile pick_from_stack(t_stack *pi)
 {
 	int i, pos;
 	t_stack aux;
-	pos = random_number(pi->n_tiles); // Escoge una tile aleatoria
-	aux.f[pos] = pi->f[pos];		  // Guarda esta tile aleatoria en un auxiliar
+	pos = random_number(pi->n_tiles); // Picks a random tile.
+	aux.f[pos] = pi->f[pos];
 	for (i = pos; i < (pi->n_tiles - 1); i++)
-	{ // Elimina la tile robada del vector de la pila
+	{ // Deletes the picked tile from the stack.
 		pi->f[i] = pi->f[i + 1];
 	}
 	pi->n_tiles--;
-	return (aux.f[pos]); // El return devuelve la tile robada
+	return (aux.f[pos]); // returns the picked tile.
 }

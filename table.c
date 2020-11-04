@@ -10,7 +10,7 @@ typedef struct
 
 void initialize_table(t_table *p_m)
 {
-	p_m->n_tiles = 0; // Inicialmente no hay tiles en la mesa
+	p_m->n_tiles = 0; // No tiles on the table at the beginning.
 }
 
 void print_table(t_table m, int dim)
@@ -19,18 +19,18 @@ void print_table(t_table m, int dim)
 
 	printf("\nTable:   ");
 	if (dim == FALSE)
-	{ //sense 2d
+	{ // No 2D table.
 		for (i = 0; i < m.n_tiles; i++)
 			printf("%d:%d|", m.f[i].num1, m.f[i].num2);
 	}
 	else
-	{ //con 2d
+	{ // 2D table
 		printf("\n");
 
 		for (i = 0; i < m.n_tiles; i++)
 		{
 			if (m.f[i].num1 == m.f[i].num2)
-			{ //es doble, poner vertical
+			{ // If double, place vertically.
 				printf("%d|", m.f[i].num1);
 			}
 			else
@@ -42,19 +42,19 @@ void print_table(t_table m, int dim)
 		for (i = 0; i < m.n_tiles; i++)
 		{
 			if (m.f[i].num1 == m.f[i].num2)
-			{ //es doble, poner vertical
+			{ // If double, place vertically.
 				printf("-|");
 			}
 			else
 			{
-				printf("%d:%d|", m.f[i].num1, m.f[i].num2); //es normal, se imprime normal
+				printf("%d:%d|", m.f[i].num1, m.f[i].num2);
 			}
 		}
 		printf("\n");
 		for (i = 0; i < m.n_tiles; i++)
 		{
 			if (m.f[i].num1 == m.f[i].num2)
-			{ //es doble, poner vertical
+			{ // If double, place vertically.
 				printf("%d|", m.f[i].num1);
 			}
 			else
@@ -70,7 +70,7 @@ void play_from_right(t_table *p_m, t_tile f)
 {
 	int i;
 
-	p_m->f[p_m->n_tiles] = f; // Posición de la derecha: n_tiles porque es la primera posición vacia en el vector
+	p_m->f[p_m->n_tiles] = f; // Rightmost position :n_tiles because it is the first empty position in the vector.
 	p_m->n_tiles++;
 }
 void play_from_left(t_table *p_m, t_tile f)
@@ -78,10 +78,10 @@ void play_from_left(t_table *p_m, t_tile f)
 	int i;
 	p_m->n_tiles++;
 	for (i = p_m->n_tiles; i > 0; i--)
-	{ // Desplaza toda la mesa un lugar a la derecha
+	{ // Shift all the table one place to the right
 		p_m->f[i] = p_m->f[i - 1];
 	}
-	p_m->f[0] = f; // Introduce en la posición 0 la nueva tile
+	p_m->f[0] = f; // Introduces the new tile on position 0.
 }
 
 int table_leftmost(t_table m)

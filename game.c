@@ -18,8 +18,8 @@ typedef struct
     int visible; // Stack of tiles and visible tiles from a bot.
     int dim;     // See table in 2D (versus 1D).
     // visible and table_2d can be TRUE o FALSE.
-    int pasadas; // Consecutive times a player passes turn.
-    // if pasadas == n_players the game ends.
+    int num_passes; // Consecutive times a player passes turn.
+    // if num_passes == n_players the game ends.
 } t_game;
 
 void initialize_game(t_game *p_pa);
@@ -31,16 +31,14 @@ void initialize_game(t_game *p_pa)
 {
     int i, j, p, k, nj, nf;
 
-    char s1[50] = "¿Numero de jugadores?", s2[50] = "¿Un jugador humano?", s3[50] = "¿Quieres omnisciencia?", s4[50] = "¿Quieres ver la mesa en 2D?";
+    char s1[50] = "Number of players?", s2[50] = "Will there be a human player?", s3[50] = "Do you wish to activate omniscience?", s4[50] = "Do you wish to see the table in 2D?";
 
-    p_pa->pasadas = 0;
+    p_pa->num_passes = 0;
 
-    p_pa->js.n_players = ask_n_in_range(&s1[0], 2, 4); // Ask the questions.
-
+    // Ask the starting questions.
+    p_pa->js.n_players = ask_n_in_range(&s1[0], 2, 4);
     p_pa->js.a_human = ask_yes_or_no(&s2[0]);
-
     p_pa->visible = ask_yes_or_no(&s3[0]);
-
     p_pa->dim = ask_yes_or_no(&s4[0]);
 
     printf("\n");
@@ -125,18 +123,18 @@ void make_play(t_game *p_pa)
         if (p_pa->visible == TRUE)
         {                                                  // Omniscience active.
             if (p_pa->js.j[p_pa->js.turn].type == T_HUMAN) // If it is human, the tile is shown.
-                printf("You pick from the stack! Picked a %d:%d ;P\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2);
+                printf("You take tiles from the stack! Picked a %d:%d ;P\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2);
             else
-                printf("He picks from the stack! Picked a %d:%d ;)\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2); // Si es robot muestra la tile
+                printf("He takes tiles from the stack! Picked a %d:%d ;)\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2); // Si es robot muestra la tile
             p_pa->js.j[p_pa->js.turn].n_tiles++;
             ts = calculate_possible_moves(p_pa->js.j[p_pa->js.turn], p_pa->m);
         }
         if (p_pa->visible == FALSE)
         {
             if (p_pa->js.j[p_pa->js.turn].type == T_HUMAN) // If it is human, the tile is shown.
-                printf("You pick from the stack! Picked a %d:%d ;P\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2);
+                printf("You take tiles from the stack! Picked a %d:%d ;P\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2);
             else
-                printf("He picks from the stack! ;)\n"); // If it is a bot, the tile is not shown.
+                printf("He takes tiles from the stack! ;)\n"); // If it is a bot, the tile is not shown.
             p_pa->js.j[p_pa->js.turn].n_tiles++;
             ts = calculate_possible_moves(p_pa->js.j[p_pa->js.turn], p_pa->m);
         }
@@ -149,14 +147,14 @@ void make_play(t_game *p_pa)
         if (ts.n_moves == 0 && p_pa->pi.n_tiles == 0)
         { // Human cannot move and passes turn.
             printf("You pass turn! :(\n\n");
-            p_pa->pasadas++;
+            p_pa->num_passes++;
         }
 
         if (ts.n_moves > 0)
         {
-            p_pa->pasadas = 0;
+            p_pa->num_passes = 0;
             if (ts.count_dobles > 1)
-                v = ts.n_moves; //Si se dobledobla cuenta esa tirada como extra
+                v = ts.n_moves; // If dobledobla, counts that move twice.
             else
                 v = ts.n_moves - 1;
             printf("¿Which move will you do [0-%d]?: ", v);
@@ -169,14 +167,14 @@ void make_play(t_game *p_pa)
             }
             printf("\n");
             if ((ts.count_dobles > 1) && (tirada == ts.n_moves))
-            {                                                                                        //Se dobledobla cuando el contador tiene 2 tiradas con dobles y el player la escoje
-                play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleleft].n_tile]); //doble por la derecha
-                play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleright].n_tile]); //doble por la izquierda
-                for (i = ts.t[ts.dobleright].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++) // Eliminar un doble del vector de tiles del player
+            {                                                                                        // Dobledobla is when the counter has 2 moves with doubles and the player picks it.
+                play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleleft].n_tile]); // Double from the right.
+                play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleright].n_tile]); // Double from the left.
+                for (i = ts.t[ts.dobleright].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++) // Deletes a double from the tiles vector of the player.
                     p_pa->js.j[p_pa->js.turn].f[i] = p_pa->js.j[p_pa->js.turn].f[i + 1];
                 p_pa->js.j[p_pa->js.turn].n_tiles--;
                 if (ts.t[ts.dobleleft].n_tile > ts.t[ts.dobleright].n_tile)
-                { // Eliminar el otro doble del vector de tiles dependiendo de donde se encuentre respecto al primer doble
+                { // Deletes the other double from the tiles vector depending where it is found respecting the first one.
                     for (i = ts.t[ts.dobleleft - 1].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++)
                         p_pa->js.j[p_pa->js.turn].f[i] = p_pa->js.j[p_pa->js.turn].f[i + 1];
                     p_pa->js.j[p_pa->js.turn].n_tiles--;
@@ -189,16 +187,16 @@ void make_play(t_game *p_pa)
                 }
             }
             if (tirada != ts.n_moves)
-            {                                     //Si no se dobledobla
-                if (ts.t[tirada].rotated == TRUE) //Gira la tile si debe hacerlo
+            {                                     // If no dobledobla
+                if (ts.t[tirada].rotated == TRUE) // Rotates the tile if necessary.
                     turn_tile(&(p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]));
                 if (ts.t[tirada].corner == 'd')
                 {
-                    play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); //Coloca por la derecha
+                    play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); // Moves from the right.
                 }
                 else
                 {
-                    play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); //Coloca por la izquierda
+                    play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); // Moves from the left.
                 }
                 for (i = ts.t[tirada].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++)
                     p_pa->js.j[p_pa->js.turn].f[i] = p_pa->js.j[p_pa->js.turn].f[i + 1];
@@ -206,30 +204,30 @@ void make_play(t_game *p_pa)
             }
         }
     }
-    else
-    { /*TIRA UN ROBOT*/
+    else // A bot plays
+    {
         if (ts.n_moves == 0 && p_pa->pi.n_tiles == 0)
         {
-            printf("Pasa! :)\n\n"); //Si no puede tirar pasa turn
-            p_pa->pasadas++;
+            printf("Pasa! :)\n\n");
+            p_pa->num_passes++;
         }
-        //Robot no puede tirar y pasa turn
+        // Bot cannot move and passes turn.
 
         if (ts.n_moves > 0)
         {
-            p_pa->pasadas = 0;
+            p_pa->num_passes = 0;
             if (ts.count_dobles > 1)
-                ts.n_moves++;                   // dobledoblarse cuenta como una tirada más
-            tirada = random_number(ts.n_moves); // Escoge una tirada al azar
+                ts.n_moves++;                   // Dobledobla counts as an extra move.
+            tirada = random_number(ts.n_moves); // Picks a random move.
             if ((ts.count_dobles > 1) && (tirada == ts.n_moves))
-            {                                                                                        //Se dobledobla cuando el contador tiene 2 tiradas con dobles y el player la escoje
-                play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleleft].n_tile]); // doble por la derecha
-                play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleright].n_tile]); // doble por la izquierda
-                for (i = ts.t[ts.dobleright].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++) // Eliminar un doble del vector de tiles del robot
+            {                                                                                        // Dobledobla is when the counter has 2 moves with doubles and the player picks it.
+                play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleleft].n_tile]); // Double from the right.
+                play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[ts.dobleright].n_tile]); // Double from the left.
+                for (i = ts.t[ts.dobleright].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++) // Deletes a double from the tiles vector of the player.
                     p_pa->js.j[p_pa->js.turn].f[i] = p_pa->js.j[p_pa->js.turn].f[i + 1];
                 p_pa->js.j[p_pa->js.turn].n_tiles--;
                 if (ts.t[ts.dobleleft].n_tile > ts.t[ts.dobleright].n_tile)
-                { //Eliminar el otro doble dependiendo de su posición respecto al primero
+                { // Deletes the other double from the tiles vector depending where it is found respecting the first one.
                     for (i = ts.t[ts.dobleleft - 1].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++)
                         p_pa->js.j[p_pa->js.turn].f[i] = p_pa->js.j[p_pa->js.turn].f[i + 1];
                     p_pa->js.j[p_pa->js.turn].n_tiles--;
@@ -243,18 +241,18 @@ void make_play(t_game *p_pa)
             }
             else
             {
-                if (ts.t[tirada].rotated == TRUE) //Gira la tile si debe hacerlo
+                if (ts.t[tirada].rotated == TRUE) // Rotates the tile if necessary.
                     turn_tile(&(p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]));
                 print_move(ts.t[tirada], p_pa->js.j[p_pa->js.turn]);
                 if (ts.t[tirada].corner == 'd')
                 {
-                    play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); //Coloca por la derecha
+                    play_from_right(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); // Moves from the right.
                 }
                 else
                 {
-                    play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); //Coloca por la izquierda
+                    play_from_left(&(p_pa->m), p_pa->js.j[p_pa->js.turn].f[ts.t[tirada].n_tile]); // Moves from the left.
                 }
-                for (i = ts.t[tirada].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++) //Elimina la tile del vector
+                for (i = ts.t[tirada].n_tile; i < p_pa->js.j[p_pa->js.turn].n_tiles - 1; i++)
                     p_pa->js.j[p_pa->js.turn].f[i] = p_pa->js.j[p_pa->js.turn].f[i + 1];
                 p_pa->js.j[p_pa->js.turn].n_tiles--;
             }
@@ -269,31 +267,31 @@ int has_the_game_ended(t_game pa)
 {
     int aux = FALSE, minweight = 200, i, j, jugminweight, empate = FALSE;
 
-    if (pa.js.turn > 0) // Como has_the_game_ended se coloca despues de skip_turn, pa.js.turn debe ser un numero menos
+    if (pa.js.turn > 0) // As has_the_game_ended is invoked after skip_turn, pa.js.turn must be one less number
         pa.js.turn = pa.js.turn - 1;
 
-    else // NO puede ser -1, asi que vuelve a n_players-1 (maximo)
+    else // Cannot be -1, goes back to n_players-1 (maximum)
         pa.js.turn = pa.js.n_players - 1;
 
     if (pa.js.j[pa.js.turn].n_tiles == 0)
-    { // Condición de ganador
+    { // Winning condition.
         if (pa.js.j[pa.js.turn].type == T_HUMAN)
-        { // Gana el humano
+        {
             printf("===>>> HAS GANADO! :) <<<===\n\n");
         }
         else
-        { //Gana el robot
+        {
             printf("===>>> HA GANADO EL J%d! :/ <<<===\n\n", pa.js.turn);
         }
         aux = TRUE;
         return (aux);
     }
-    else if (pa.pasadas >= pa.js.n_players)
-    { //Ganador en bloqueo
+    else if (pa.num_passes >= pa.js.n_players)
+    {
         printf("===>>> JUEGO BLOQUEADO <<<===\n\n");
         aux = TRUE;
         for (i = 0; i < pa.js.n_players; i++)
-        { // Calcula el weight de las tiles
+        { // Calculates the weight of the tiles.
             pa.js.j[i].weight = 0;
             for (j = 0; j < pa.js.j[i].n_tiles; j++)
             {
@@ -302,7 +300,7 @@ int has_the_game_ended(t_game pa)
             printf("weight J%d=%d\n", i, pa.js.j[i].weight);
         }
         for (i = 0; i < pa.js.n_players; i++)
-        { //weight minimo con su player
+        {
             if (minweight > pa.js.j[i].weight)
             {
                 minweight = pa.js.j[i].weight;
@@ -310,18 +308,18 @@ int has_the_game_ended(t_game pa)
             }
         }
         for (i = 0; i < pa.js.n_players; i++)
-        { // Caso de empate (tablas)
+        { // Draw.
             if (minweight == pa.js.j[i].weight && i != jugminweight)
             {
                 empate = TRUE;
             }
         }
         if (empate == TRUE)
-        { // Tablas
+        {
             printf("\n===>>> TABLAS ENTRE J%d Y J%d CON MINIMO weight(%d de weight) <<<===\n\n\n", jugminweight, i, minweight);
         }
         else
-        { // Ganador
+        {
             printf("\n===>>> HA GANADO EL J%d POR MINIMO weight(%d de weight) <<<===\n\n\n", jugminweight, minweight);
         }
     }
