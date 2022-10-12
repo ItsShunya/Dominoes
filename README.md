@@ -57,7 +57,9 @@
 
 ## About The Project
 
-This was a project I developed during my first year of unniversity when I was learning C programming, so it includes quite some beginning errors. When you are starting programming in most of the languages, some of the easiest programs to make are just simple games, so in this case I chose dominoes. As a beginner developer, I did not include any kind of GUI, so it only runs in the command line. It is a simple dominoes game for a single player to play against bots.
+This was a project I developed during my first year of unniversity when I was learning the C programming language, so it includes quite some beginner errors. In most cases, when learning a new programming language, some of the easiest programs to make are just simple games, so in this case I chose *dominoes*. As a beginner developer, I did not include any kind of GUI, so this is a software that runs in the command line. It is a simple dominoes game for a single player to play against bots.
+
+<!-- BUILT WITH -->
 
 ### Built With
 
@@ -123,11 +125,11 @@ Contributions are what make the open source community such an amazing place to b
 
 1. Fork the Project
 
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+2. Create your Feature Branch (`git checkout -b FEATURE/#3-Amazing-Feature`)
 
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your Changes (`git commit -m 'Add some Amazing Feature'`)
 
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+4. Push to the Branch (`git push origin FEATURE/#3-Amazing-Feature`)
 
 5. Open a Pull Request
 
@@ -135,7 +137,7 @@ Contributions are what make the open source community such an amazing place to b
 
 ## License
 
-Distributed under the GNU General Public License. See `LICENSE` for more information.
+Distributed under the GNU General Public License. See [`LICENSE`](https://github.com/ItsShunya/Dominoes/blob/main/LICENSE) for more information.
 
 <!-- CONTACT -->
 
