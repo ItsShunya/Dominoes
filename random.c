@@ -9,7 +9,7 @@
  */
 //void initialize_random() {
 /*
-	 * To ensure that the sequence of random numbers is the samePara que la sequencia de numeros aleatorios sea igual en cada
+	 * To ensure that the sequence of random numbers is the same
 	 * in each execution use srand(0) instead srand(time).
 	 */
 //srand(0);
