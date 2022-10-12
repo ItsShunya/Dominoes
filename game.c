@@ -125,7 +125,7 @@ void make_play(t_game *p_pa)
             if (p_pa->js.j[p_pa->js.turn].type == T_HUMAN) // If it is human, the tile is shown.
                 printf("You take tiles from the stack! Picked a %d:%d ;P\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2);
             else
-                printf("He takes tiles from the stack! Picked a %d:%d ;)\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2); // Si es robot muestra la tile
+                printf("He takes tiles from the stack! Picked a %d:%d ;)\n", p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num1, p_pa->js.j[p_pa->js.turn].f[p_pa->js.j[p_pa->js.turn].n_tiles].num2); // If it is a bot, the tile is shown.
             p_pa->js.j[p_pa->js.turn].n_tiles++;
             ts = calculate_possible_moves(p_pa->js.j[p_pa->js.turn], p_pa->m);
         }
@@ -157,12 +157,12 @@ void make_play(t_game *p_pa)
                 v = ts.n_moves; // If dobledobla, counts that move twice.
             else
                 v = ts.n_moves - 1;
-            printf("¿Which move will you do [0-%d]?: ", v);
+            printf("Which move will you do [0-%d]?: ", v);
             scanf("%d", &tirada);
             while (tirada < 0 || tirada > v)
             {
-                printf("¡%d is not an option!\n", tirada);
-                printf("¿Which move will you do [0-%d]?: ", v);
+                printf("%d is not an option!\n", tirada);
+                printf("Which move will you do [0-%d]?: ", v);
                 scanf("%d", &tirada);
             }
             printf("\n");
@@ -277,18 +277,18 @@ int has_the_game_ended(t_game pa)
     { // Winning condition.
         if (pa.js.j[pa.js.turn].type == T_HUMAN)
         {
-            printf("===>>> HAS GANADO! :) <<<===\n\n");
+            printf("===>>> YOU HAVE WON! :) <<<===\n\n");
         }
         else
         {
-            printf("===>>> HA GANADO EL J%d! :/ <<<===\n\n", pa.js.turn);
+            printf("===>>> PLAYER %d HAS WON THE GAME! :/ <<<===\n\n", pa.js.turn);
         }
         aux = TRUE;
         return (aux);
     }
     else if (pa.num_passes >= pa.js.n_players)
     {
-        printf("===>>> JUEGO BLOQUEADO <<<===\n\n");
+        printf("===>>> GAME BLOCKED <<<===\n\n");
         aux = TRUE;
         for (i = 0; i < pa.js.n_players; i++)
         { // Calculates the weight of the tiles.
@@ -297,7 +297,7 @@ int has_the_game_ended(t_game pa)
             {
                 pa.js.j[i].weight = pa.js.j[i].weight + pa.js.j[i].f[j].num1 + pa.js.j[i].f[j].num2;
             }
-            printf("weight J%d=%d\n", i, pa.js.j[i].weight);
+            printf("weight player %d=%d\n", i, pa.js.j[i].weight);
         }
         for (i = 0; i < pa.js.n_players; i++)
         {
@@ -316,11 +316,11 @@ int has_the_game_ended(t_game pa)
         }
         if (empate == TRUE)
         {
-            printf("\n===>>> TABLAS ENTRE J%d Y J%d CON MINIMO weight(%d de weight) <<<===\n\n\n", jugminweight, i, minweight);
+            printf("\n===>>> TIE BETWEEN PLAYER %d AND PLAYER %d WITH MINIMUM WEIGHT(%d OF WEIGHT) <<<===\n\n\n", jugminweight, i, minweight);
         }
         else
         {
-            printf("\n===>>> HA GANADO EL J%d POR MINIMO weight(%d de weight) <<<===\n\n\n", jugminweight, minweight);
+            printf("\n===>>> PLAYER %d HAS WON THE GAME BY MINIMUM WEIGHT(%d OF WEIGHT) <<<===\n\n\n", jugminweight, minweight);
         }
     }
     else

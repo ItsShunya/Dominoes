@@ -70,5 +70,5 @@ t_tile pick_from_stack(t_stack *pi)
 		pi->f[i] = pi->f[i + 1];
 	}
 	pi->n_tiles--;
-	return (aux.f[pos]); // returns the picked tile.
+	return (aux.f[pos]); // Returns the picked tile.
 }
